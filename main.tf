@@ -34,7 +34,7 @@ resource "aws_instance" "vm" {
   instance_type = var.ec2_instance_type
   key_name      = var.key-name
   vpc_security_group_ids = [
-    aws_security_group.project-iac-sg.id
+    var.security-group
   ]
 
   tags = {

@@ -14,3 +14,9 @@ variable "ami-id" {
   type        = string
 }
 
+
+variable "security-group" {
+  description = "SG"
+  type        = string
+}
+
