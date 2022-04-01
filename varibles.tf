@@ -9,3 +9,8 @@ variable "key-name" {
   type        = string
 }
 
+variable "ami-id" {
+  description = "ami"
+  type        = string
+}
+

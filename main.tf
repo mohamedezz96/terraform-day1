@@ -30,9 +30,9 @@ resource "aws_security_group" "project-iac-sg" {
 
 
 resource "aws_instance" "vm" {
-  ami           = "ami-00ee4df451840fa9d"
+  ami           = var.ami-id
   instance_type = var.ec2_instance_type
-  key_name      = "deployer-key"
+  key_name      = var.key-name
   vpc_security_group_ids = [
     aws_security_group.project-iac-sg.id
   ]
