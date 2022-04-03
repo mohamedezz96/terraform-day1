@@ -1,3 +1,4 @@
+
 variable "ec2_instance_type" {
   description = "AWS EC2 instance type."
   type        = string
@@ -15,8 +16,5 @@ variable "ami-id" {
 }
 
 
-variable "security-group" {
-  description = "SG"
-  type        = string
-}
+
 

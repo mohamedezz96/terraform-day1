@@ -14,6 +14,22 @@ resource "aws_security_group" "project-iac-sg" {
     cidr_blocks = ["0.0.0.0/0"]
 }
 
+  ingress {
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+
+
   egress {
     from_port       = 0
     to_port         = 0
@@ -34,8 +50,28 @@ resource "aws_instance" "vm" {
   instance_type = var.ec2_instance_type
   key_name      = var.key-name
   vpc_security_group_ids = [
-    var.security-group
+    aws_security_group.project-iac-sg.id
   ]
+
+  provisioner "remote-exec" {
+	 inline = [
+	    "sudo yum install httpd  php git -y",
+	    "sudo systemctl start httpd",
+	    "sudo systemctl enable httpd",
+            "sudo echo 'learning' > /var/www/html/index.html",
+	    ]
+
+	  connection {
+	    type     = "ssh"
+	    user     = "ec2-user"
+	    private_key = file("/home/ezz/.ssh/id_rsa") 
+	    host     = aws_instance.vm.public_ip
+      }
+	
+
+
+
+	  }
 
   tags = {
     Name = "my-second-tf-instance"
@@ -54,6 +90,8 @@ output "instance_ip_addr_public" {
 }
 
 
-
+output "web_instance_URL" {
+    value = aws_instance.vm.public_dns
+}
 
 
