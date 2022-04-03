@@ -5,8 +5,8 @@ resource "aws_key_pair" "deployer" {
 
 
 
-resource "aws_security_group" "project-iac-sg" {
-  name = "Sg-1"
+resource "aws_security_group" "security" {
+  name = "Sg-111"
   ingress {
     from_port = 22
     protocol = "tcp"
@@ -33,14 +33,17 @@ resource "aws_instance" "vm" {
   ami           = var.ami-id
   instance_type = var.ec2_instance_type
   key_name      = var.key-name
-  vpc_security_group_ids = [
-    var.security-group
-  ]
+  vpc_security_group_ids = ["${aws_security_group.security.id}"]
+  
 
   tags = {
     Name = "my-second-tf-instance"
   }
 }
+
+
+
+
 
 
 output "instance_ip_addr" {
